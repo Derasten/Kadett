@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/titulo_pedir_telefono"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="1.37"
+        android:background="#d00000"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/texto_telefono"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="phone" />
+
+    <Button
+        android:id="@+id/boton_alerta_telefono"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/ok" />
+
+</LinearLayout>

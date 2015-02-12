@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/numero_movil"
+        android:labelFor="@+id/edit_numero_movil"
+        style="@style/textoBoton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/boton_ajustes"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp" />
+
+    <EditText
+        android:id="@+id/edit_numero_movil"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-5dp"
+        android:inputType="phone"
+        android:paddingBottom="10dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="10dp" />
+
+    <TextView
+        android:id="@+id/numero_arduino"
+        android:labelFor="@+id/edit_numero_arduino"
+        style="@style/textoBoton"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:paddingRight="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/boton_ajustes"/>
+    <EditText
+        android:id="@+id/edit_numero_arduino"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-5dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:inputType="phone"/>
+    <Button
+        android:id="@+id/boton_cambiar_numeros"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/guardar"
+        android:background="@drawable/boton_ajustes" 
+        style="@style/textoBoton"/>
+
+</LinearLayout>

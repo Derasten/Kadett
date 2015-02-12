@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+ 
+    <ListView
+        android:id="@+id/lista_alerta_dispositivos"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:divider="#fff"
+        android:dividerHeight="0.5dp"
+        android:background="#98cadd"
+        android:choiceMode="singleChoice"
+        android:layout_marginBottom="10dp"/>
+    <RelativeLayout 
+        android:id="@+id/closecalmlayout"
+        android:layout_below="@+id/lista_alerta_dispositivos" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content"
+        android:weightSum="1.0">
+    	<Button
+        	android:id="@+id/boton_alerta_dispositivos"
+        	android:layout_width="100dp"
+        	android:layout_height="wrap_content"
+        	android:text="@string/cancelar"
+        	android:layout_marginTop="10dp"
+        	android:layout_marginRight="5dp"
+        	android:layout_marginBottom="5dp"
+        	android:layout_centerHorizontal="true"/>
+    	
+    </RelativeLayout>
+</RelativeLayout>

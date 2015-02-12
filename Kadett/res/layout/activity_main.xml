@@ -1,0 +1,52 @@
+<!-- DrawerLayout es el "contenedor" de la actividad en este caso, ocupando toda la pantalla.-->
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	
+    <!-- FrameLayout será la pantalla que quede al fondo cuando se despliegue el menú -->
+    <FrameLayout
+        android:id="@+id/pantalla_principal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff" />
+    <!-- ImageView se queda al igual que FrameLayout al fondo. -->
+    <ImageView 
+            android:id="@+id/imagen_coche"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/imagen_logo"
+            android:src="@drawable/coche_cerrado"
+            android:background="#ffffff"/>
+    
+    <!-- LinearLayout contiene la imagen del menú y la lista de opciones.-->
+    <!-- android:layout_gravity="start" indica al DrawerLayout que tiene que tratar
+         éste LinearLayout como pantalla deslizante de izquierda a derecha.-->
+    <LinearLayout 
+        android:id="@+id/marco_menu_lateral"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical">
+    
+    	<!-- ImageView, la imagen que acompaña al menú. -->
+    	<ImageView 
+            android:id="@+id/imagen_menu"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:src="@drawable/menu"
+            android:contentDescription="@string/imagen_logo"
+            android:background="#d00000"/>
+        <!-- ListView contiene los elementos del menú. -->
+    	<ListView
+        	android:id="@+id/menu_lateral"
+        	android:layout_width="220dp"
+        	android:layout_height="match_parent"
+        	android:choiceMode="singleChoice"
+        	android:divider="#fff"
+        	android:dividerHeight="0.5dp"
+        	android:background="#d00000"/>
+    
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

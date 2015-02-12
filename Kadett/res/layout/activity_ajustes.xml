@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center" >
+    <!-- Ya no se necesita aquí se mueve al menú principal -->
+    <!-- 
+    <Button
+            android:id="@+id/boton_posicion"
+     		android:layout_height="wrap_content"
+     		android:layout_width="200dp"
+     		android:layout_margin="10dp"
+     		android:text="@string/btn_posicion"
+     		android:onClick="selfDestruct"/>
+        -->	
+        <Button
+            android:id="@+id/boton_permiso"
+     		android:layout_height="wrap_content"
+     		android:layout_width="200dp"
+     		android:layout_margin="10dp"
+     		android:background="@drawable/boton_ajustes"
+     		android:text="@string/btn_permiso"
+     		android:onClick="selfDestruct"
+     		style="@style/textoBoton"/>
+
+        <Button
+            android:id="@+id/boton_numeros"
+            style="@style/textoBoton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/boton_ajustes"
+            android:onClick="selfDestruct"
+            android:text="@string/btn_numero" />
+
+        <Button
+            android:id="@+id/boton_borrar"
+     		android:layout_height="wrap_content"
+     		android:layout_width="200dp"
+     		android:layout_margin="10dp"
+     		android:background="@drawable/boton_ajustes"
+     		android:text="@string/btn_borrar"
+     		android:onClick="selfDestruct"
+     		style="@style/textoBoton"/>
+        
+</LinearLayout>

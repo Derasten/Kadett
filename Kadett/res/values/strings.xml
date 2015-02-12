@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Kadett</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="imagen_logo">Imagen del menu lateral</string>
+
+    <string-array name="menu_array">
+        <item>Mapa</item>
+        <item>Obtener posición</item>
+        <item>Ajustes</item>
+        <item>Salir</item>
+    </string-array>
+    
+    <string-array name="menu_array_principio">
+        <item>Empezar</item>
+        <item>Ajustes</item>
+        <item>Salir</item>
+    </string-array>
+
+    <string name="menu_abierto">Abre el menú</string>
+    <string name="menu_cerrado">Cierra el menú</string>
+    <string name="title_activity_ajustes">Ajustes</string>
+    <string name="title_activity_primera">Buscando Dispositivos</string>
+    <string name="title_activity_telefono">Introduzca su número de teléfono</string>
+    <string name="title_activity_mapa">Mapa</string>
+    <string name="title_activity_numeros">Modificar números</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="primera_ejecucion">Es la primera vez que ejecuta ésta aplicación. Introduzca los números de teléfonos que le serán pedidos a continuación y pulse el botón Empezar para sincronizar.</string>
+	<string name="cancelar">Cancelar</string>
+	<string name="ok">OK</string>
+	<string name="btn_permiso">Dar permiso</string>
+	<string name="btn_numero">Cambiar números</string>
+	<string name="btn_borrar">Resetear ARDUINO</string>
+	<string name="guardar">Guardar</string>
+	
+</resources>
