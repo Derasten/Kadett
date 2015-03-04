@@ -11,7 +11,12 @@ public class recibirSMS extends BroadcastReceiver{
     private static final String RECIBIDO = "android.provider.Telephony.SMS_RECEIVED";
     
 
-    
+    /**
+     * 
+     * Recibe los mensajes y los desgrana para a continuación enviarlo a otro proceso
+     * @param contexto (Context) El contexto sobre el cual se ejecutará
+     * @param intento (Intent) 
+     * */
     public void onReceive(Context contexto, Intent intento) {
     	
     	this.abortBroadcast();
@@ -41,6 +46,11 @@ public class recibirSMS extends BroadcastReceiver{
 
     }
 
+    /**
+     * Recorre el SMS para leer todos los datos y los devuelve en forma de SmsMessage[]
+     * @param intent (Intent)
+     * @return SMS (SmsMessage[]) Devuelve el mensaje organizado
+     * */
     public static SmsMessage[] obtenerSMS(Intent intent) {
         Object[] mensajes = (Object[]) intent.getSerializableExtra("pdus");
         byte[][] PDUS = new byte[mensajes.length][];

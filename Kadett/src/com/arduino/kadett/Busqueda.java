@@ -47,9 +47,20 @@ public class Busqueda extends Service{
 	   
     }
     
- 	// Clase tipo BroadCastReceiver
+ 	/** 
+ 	 * Clase tipo BroadCastReceiver
+     *  Escucha los resultados de la Busqueda bluetooth
+     */
     public class escuchaBT extends BroadcastReceiver {
 
+    	/**
+    	 * Recibe los eventos de BluetoothDiscovery(), si encuentra el dispositivo Arduino se conecta automáticamente.
+    	 * Si no espera.
+    	 * 
+    	 * @param context (Context)
+    	 * @param intent (Intent)
+    	 * 
+    	 * */
         @Override
         public void onReceive(Context context, Intent intent) {
         	String action = intent.getAction();
@@ -75,14 +86,19 @@ public class Busqueda extends Service{
 	        }
         }
 
-        // Constructor
+        /** 
+         * Constructor
+         * 
+         */
         public escuchaBT(){
 
         }
     }
     /**
      * reconectar()
+     * 
      * Trata de reconectar la conexión
+     *
      **/
     public void reconectar(){
     	Log.i(ACTIVIDAD,"reconectar()");
@@ -92,6 +108,14 @@ public class Busqueda extends Service{
     	btAdapter.startDiscovery();
     }
     
+    /**
+     * Se encarga de coger la MAC y empezar la conexión entre dispositivos
+     * 
+     * @param intent (Intent)
+     * @param flags (int)
+     * @param startId (int)
+     * @return Service.START_NOT_STICKY (int)
+     * */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
     	Log.i(ACTIVIDAD,"onStartCommand()");
@@ -107,8 +131,8 @@ public class Busqueda extends Service{
     }
     
     /**
-     * confirmaEstado()
      *  Seguramente lo borre más adelante.
+     *
      **/
     public void confirmaEstado(){
     	
@@ -133,6 +157,7 @@ public class Busqueda extends Service{
     /**
      *	onDestroy()
      *
+     *	@throws Exception al desregistrar el receiver
      **/
     @Override
 	  public void onDestroy() {
@@ -140,7 +165,11 @@ public class Busqueda extends Service{
 	    if (btAdapter != null) {
 	      btAdapter.cancelDiscovery();
 	    }
+	    try{
 	    unregisterReceiver(bReceiver);
+	    }catch(Exception e){
+	    	Log.e(ACTIVIDAD, "Fallo al cerrar socket en cHiloConectado.cancelar()", e);
+	    }
 	    stopSelf();
 	    super.onDestroy();
 	  }
@@ -152,15 +181,28 @@ public class Busqueda extends Service{
     private static class sHandler extends Handler {
         private final WeakReference<Busqueda> bServicio;
 
+        /**
+         * Constructor
+         * 
+         * @param service (Busqueda)
+         * */
         public sHandler(Busqueda service) {
           bServicio = new WeakReference<Busqueda>(service);
         }
 
+        /**
+         * Maneja los mensajes
+         * 
+         * @param mensaje (Message)
+         * 
+         * */
         @Override
         public void handleMessage(Message mensaje) {
           Busqueda servicio = bServicio.get();
           if (servicio != null) {
         	  switch (mensaje.what) {
+        	  		//Si se ha recibido mensaje_escribir, se manda un mensaje a la 
+        	  		//actividad principal para que cambie la imagen del coche
               		case MENSAJE_ESCRIBIR:
               					byte[] escribirBuf = (byte[]) mensaje.obj;
               					String escrito = new String(escribirBuf, 0, mensaje.arg1);
@@ -173,6 +215,8 @@ public class Busqueda extends Service{
               						LocalBroadcastManager.getInstance(servicio).sendBroadcast(intent);            	  				
               					}
               					break;
+              		//Si se recibe mensaje_conexion_perdida, se envia un mensaje indicando 
+              	    // que se ha perdido la conexión y que se cambie la imagen del coche.
               		case MENSAJE_CONEXION_PERDIDA:
               					servicio.ESTADO_COCHE= false;
               					Intent intfallo = new Intent("ImagenAbiertoCerrado");

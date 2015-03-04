@@ -22,6 +22,10 @@ public class GoogleParser extends XMLParser implements Parser{
     protected URL url;
     protected InputStream isUrl;
 
+    /**
+     * Se encarga de acceder a la url pasada por parámetro
+     * @param feedUrl (String) url a acceder
+     * */
     public GoogleParser(String feedUrl) {
     		//Ésta línea y XMLParser ya no serían necesarios
             super(feedUrl);
@@ -133,12 +137,11 @@ public class GoogleParser extends XMLParser implements Parser{
     
     /**
      * Decodifica la polylinea en una array de LatLng.
-     * @param poly (String) polyline codificada.
+     * @param poly (String) polyline codificada a decodificar.
      * @return el array de LatLng.
      */
 
     private ArrayList<LatLng> decodificarPolyLinea(final String poly) {
-    		//Log.i("GoogleParser","decodificarPolylinea()");
     		//En el siguiente enlace está la información de como decodificar una polylinea
     		//https://developers.google.com/maps/documentation/utilities/polylinealgorithm?csw=1
             int tam = poly.length();

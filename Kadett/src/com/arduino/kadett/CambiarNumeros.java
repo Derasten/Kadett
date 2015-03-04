@@ -102,6 +102,7 @@ public class CambiarNumeros extends Activity{
 	 * onOptionsItemSelected()
 	 * Modificamos el ActionBar para que vaya a la actividad HOME cuando se pulse.
 	 * @param item (MenuItem) 
+	 * @return boolean
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

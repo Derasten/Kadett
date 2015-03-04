@@ -13,16 +13,15 @@ public class Segmento {
     private double distancia;
 
     /**
-     * Crea un Segmento vacio.
+     * Constructor
      */
-
     public Segmento() {
     }
 
 
     /**
-     * Fija la instruccion.
-     * @param a instruccion.
+     * Fija la instruccion en el segmento.
+     * @param a (String) Instrucción a fijar
      */
 
     public void setInstruccion(final String a) {
@@ -31,7 +30,7 @@ public class Segmento {
 
     /**
      * Devuelve la instruccion.
-     * @return String de la instruccion.
+     * @return instruccion (String) del segmento.
      */
 
     public String getInstruccion() {
@@ -40,7 +39,7 @@ public class Segmento {
 
     /**
      * Añade punto al Segmento.
-     * @param punto LatLng que se añadirá.
+     * @param punto (LatLng) que se añadirá.
      */
 
     public void setPunto(final LatLng punto) {
@@ -49,7 +48,7 @@ public class Segmento {
 
     /** 
      * Recupera el punto inicial del segmento.
-     * @return un LatLng
+     * @return inicio (LatLng) punto inicial del segmento
      */
 
     public LatLng puntoInicial() {
@@ -58,7 +57,7 @@ public class Segmento {
 
     /** 
      * Crea un segmento copia.
-     * @return un Segmento que es una copia de éste.
+     * @return copia (Segmento) copia de este segmento.
      */
 
     public Segmento copia() {
@@ -72,7 +71,7 @@ public class Segmento {
 
     /**
      * Fija la longitud
-     * @param longitud la longitud a fijar
+     * @param longitud (int) a fijar
      */
     public void setLongitud(final int longitud) {
             this.longitud = longitud;
@@ -80,7 +79,7 @@ public class Segmento {
 
     /**
      * Devuelve la longitud
-     * @return la longitud
+     * @return longitud (int)
      */
     public int getLongitud() {
             return longitud;
@@ -88,7 +87,7 @@ public class Segmento {
 
     /**
      * Fija la distancia
-     * @param distancia la distancia a fijar
+     * @param distancia (double) la distancia a fijar.
      */
     public void setDistancia(double distancia) {
             this.distancia = distancia;
@@ -96,9 +95,10 @@ public class Segmento {
 
     /**
      * Devuelve la distancia
-     * @return the distance
+     * @return distancia (double) la distancia
      */
     public double getDistancia() {
-            return distancia;
+    		return distancia;
     }
+    
 }

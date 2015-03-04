@@ -23,6 +23,7 @@ public class Conexion {
 	    private hiloConectado cHiloConectado;
 	    private final static String ACTIVIDAD = "Conexion Activity";
 	    public int cEstado=0;
+	    //Estándar para conectarse vía bluetooth
 	    private final UUID bluetoothUuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	    
 	    //Tipos de estado
@@ -42,9 +43,10 @@ public class Conexion {
 	    }
 	    
 	    /**
-	     * 	setEstado(int estado)
+	     * 	
 	     * Fija el estado actual de la conexion
-	     * @param estado  Integer que define el estado actual de la conexion
+	     * @param estado (int) que define el estado actual de la conexion
+	     * 
 	     */
 	    private synchronized void setEstado(int estado) {
 	        Log.d(ACTIVIDAD, "setEstado() " + cEstado + " -> " + estado);
@@ -52,16 +54,19 @@ public class Conexion {
 	    }
 
 	    /**
-	     * 	getEstado()
+	     * 	
 	     * 	Devuelve el estado actual de la conexion
+	     * @return cEstado (int)
+	     * 
 	     **/
 	    public synchronized int getEstado() {
 	        return cEstado;
 	    }
 	    
 	    /**
-	     * 	empezar()
+	     * 	
 	     * 	Resetea la conexión.
+	     * 
 	     **/
 	    public synchronized void empezar() {
 	        Log.i(ACTIVIDAD, "empezar()");
@@ -75,14 +80,13 @@ public class Conexion {
 	    }
 	    
 	    /**
-	     * conectar(BluetoothDevice dispositivo)
+	     * 
 	     * Empieza hiloConectar para iniciar la conexion al dispositivo.
-	     * @param dispositivo  El BluetoothDevice a conectar
+	     * @param dispositivo  (BluetoothDevice) El BluetoothDevice a conectar
 	     * 
 	     */
 	    public synchronized void conectar(BluetoothDevice dispositivo) {
-	        Log.d(ACTIVIDAD, "Conectar a: " + dispositivo);
-
+	        
 	        // Cancela cualquier hilo que trate de conectarse
 	        if (cEstado == ESTADO_CONECTANDO) {
 	            if (cHiloConectar != null) {cHiloConectar.cancelar(); cHiloConectar = null;}
@@ -98,14 +102,13 @@ public class Conexion {
 	    }
 	    
 	    /**
-	     * conectado(BluetoothSocket socket, BluetoothDevice dispositivo)
+	     * 
 	     * Empieza hiloConectado para controlar la conexion
-	     * @param socket  El socket donde se realizó la conexion
-	     * @param dispositivo  El dispositivo al que se conectó
+	     * @param socket (BluetoothSocket) El socket donde se realizó la conexion
+	     * @param dispositivo (BluetoothDevice) El dispositivo al que se conectó
 	     */
 	    public synchronized void conectado(BluetoothSocket socket, BluetoothDevice dispositivo){
-	        Log.d(ACTIVIDAD, "Conectado");
-
+	        
 	        // Cancela el hilo que completo la conexion
 	        if (cHiloConectar != null) {cHiloConectar.cancelar(); cHiloConectar = null;}
 
@@ -119,8 +122,7 @@ public class Conexion {
 	        setEstado(ESTADO_CONECTADO);
 	    }
 	    
-	    /**
-	     * 	parar()
+	    /** 	
 	     * 	Para todos los hilos.
 	     */
 	    public synchronized void parar() {
@@ -140,9 +142,9 @@ public class Conexion {
 	    }
 	    
 	    /**
-	     * escribir(byte[] salida)
 	     * Escribe a hiloConectado de forma asincrona
-	     * @param salida bytes a escribir
+	     * 
+	     * @param salida (byte[]) bytes a escribir
 	     * @see ConnectedThread#write(byte[])
 	     */
 	    public void escribir(byte[] salida) {
@@ -159,8 +161,9 @@ public class Conexion {
 	    }
 
 	    /**
-	     * 	conexionPerdida()
-	     * 	Indica que se perdió la conexion y notifica a Busquda.
+	     * 	
+	     * 	Indica que se perdió la conexion y notifica a Busqueda.
+	     *
 	     */
 	    private void conexionPerdida() {
 	    	Log.i(ACTIVIDAD,"conexionPerdida()");
@@ -179,6 +182,14 @@ public class Conexion {
 	        private final BluetoothSocket socket;
 	        private final BluetoothDevice dispositivo;
 
+	        /**
+	         * Se encarga de la conexión del socket
+	         * 
+	         * Constructor
+	         * 
+	         * @param dispositivo (BluetoothDevice) Dispositivo al que abrir la conexión
+	         * 
+	         * */
 	        public hiloConectar(BluetoothDevice dispositivoArg) {
 	        	Log.d(ACTIVIDAD, "Crear hiloConectar");
 	            dispositivo = dispositivoArg;
@@ -193,6 +204,11 @@ public class Conexion {
 	            socket = tmp; 
 	        }
 
+	        /**
+	         * Conecta el socket
+	         * 
+	         * @throws IOException En caso de que la conexión de error
+	         * */
 	        public void run() {
 	            Log.i(ACTIVIDAD, "Empieza chiloConectar");
 	            setName("ConnectThread");
@@ -222,7 +238,12 @@ public class Conexion {
 	            // Empezamos hiloConectar
 	            conectado(socket, dispositivo);
 	        }
-
+	        
+	        /**
+	         * Cierra el socket
+	         * 
+	         * @throws IOException Si hay error al cerrar el socket
+	         * */
 	        public void cancelar() {
 	            try {
 	                socket.close();
@@ -241,8 +262,15 @@ public class Conexion {
 	        private final InputStream mmInStream;
 	        private final OutputStream mmOutStream;
 
+	        /**
+	         * Constructor
+	         * Crea las conexiones de E/S
+	         * 
+	         * @param socketArg (BluetoothSocket) El socket sobre el que crear las E/S
+	         * @throws IOException En caso de que haya problemas al crear las E/S
+	         * */
 	        public hiloConectado(BluetoothSocket socketArg) {
-	            Log.d(ACTIVIDAD, "Crear hiloConectado");
+	            
 	            socket = socketArg;
 	            InputStream tmpIn = null;
 	            OutputStream tmpOut = null;
@@ -259,6 +287,10 @@ public class Conexion {
 	            mmOutStream = tmpOut;
 	        }
 
+	        /**
+	         * 'Escucha' la conexión de Entrada y actua en consecuencia
+	         * @throws IOException leyendo los datos
+	         * */
 	        public void run() {
 	            Log.i(ACTIVIDAD, "Empieza cHiloConectado");
 	            byte[] buffer = new byte[1024];
@@ -274,6 +306,7 @@ public class Conexion {
 	                    for(int i = 0; i < bytes; i++)
 	                    {
 	                        cadenaBT += (char)buffer[i];
+	                        //Va leyendo carácteres hasta que encuentra un '$'
 	                        if(cadenaBT.substring(cadenaBT.length() - 1).equals("$")){
 	                        	
 	                        	comparaCadena(cadenaBT);
@@ -294,9 +327,11 @@ public class Conexion {
 	        }
 
 	        /**
-	         * 	escribirHiloConectado(byte[] buffer)
+	         * 	
 	         *  Escribe al Dispositivo
-	         *  @param buffer  Los bytes a escribir
+	         *  
+	         *  @param buffer (byte[]) Los bytes a escribir
+	         *  @throws IOException 
 	         */
 	        public void escribirHiloConectado(byte[] buffer) {
 	        	Log.i(ACTIVIDAD,"write()");
@@ -308,8 +343,10 @@ public class Conexion {
 	        }
 	        
 	        /**
-	         *	cancelar()
+	         *	
 	         *	Cancela la conexión cerrando el socket
+	         *
+	         *	@throws IOException al cerrar el socket erroneamente
 	         **/
 	        public void cancelar() {
 	            try {
@@ -320,32 +357,29 @@ public class Conexion {
 	        }
 	        
 	        /**
-	         *	comparaCadena(String cadena)
+	         *	
 	         *	Compara la cadena recibida y actua en consecuencia
+	         *	
 	         *	@param cadena (String) cadena a comparar
+	         *	@throws Exception al utilizar el hilo
 	         **/
 	        private void comparaCadena(String cadena){
 	        	if(cadena.equals("alive$")){
 	        		
+	        		//Cogemos el número para compararlo
                     String numeroMovil = leerPreferencias("Numero");
                     
                     if(!numeroMovil.equals("false")){
-                    	
-                    	String numeroMensaje = "num";
-                    	numeroMensaje += String.valueOf(numeroMovil.length());
-                    	numeroMensaje += numeroMovil;
-                    	numeroMensaje += "$";
-                    	
-                    	
+                                        	
                     	String mensajeMio= new String(codificar(numeroMovil));
-                    	Log.i("CODIGOOOOOOOOOO",mensajeMio);
+                    	
                     	try{
                     		cHiloConectado.escribirHiloConectado(mensajeMio.getBytes("UTF-8"));
                     	}catch(Exception e){
                     		Log.e("Error Conversión","getBytes(UTF-8)"+e);
                     	}
                     	
-                    	Log.i("NUMERO","NUMERO: "+numeroMensaje);
+                    	
             		
                     }
                     
@@ -362,7 +396,12 @@ public class Conexion {
 	        			convierteGPS(cadena);
 	        	}
 	        }
+	        
 	        /**
+	         * codifica el número para ser enviado por el bluetooth
+	         * 
+	         * @param numero (String) numero a codificar
+	         * @return arr2 (char[]) el número codificado
 	         * */
 	        private char[] codificar(String numero){
 	        	char codif[] = new char[10];
@@ -401,14 +440,12 @@ public class Conexion {
 	        		arr2 = Arrays.copyOf(codif, numArray);
 	        		
 	        	}
-	        	for(int i=0;i<10;i++){Log.i("Devuelve",String.valueOf((int)codif[i]));}
-	        	Log.i("Resultado en String",String.valueOf(arr2));
 	        	
 	        	return arr2;
 	        }
 	        /**
-	         *	leerPreferencias(String preferencia)
 	         *	Lee las preferencias almacenadas
+	         *	
 	         *	@param preferencia (String) que se leerá
 	         *	@return cadena (String) con la preferencia 
 	         **/
@@ -421,9 +458,9 @@ public class Conexion {
 	        }
 
 		    /**
-		     *	convierteGPS(String cadena)
 		     *	Convierte las coordenadas GPS
-		     *	@param cadena String que se convertirá
+		     *	
+		     *	@param cadena (String) Coordenadas GPS que se convertirán
 		     *
 		     **/
 		    public void convierteGPS(String cadena){

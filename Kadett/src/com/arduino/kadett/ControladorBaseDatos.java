@@ -25,6 +25,12 @@ public class ControladorBaseDatos extends SQLiteOpenHelper{
 		crearTabla(base_datos);
 	}
 	
+	/**
+	 * Crea la tabla en la BB.DD que utilizaremos para guardar la localización del dispositivo Arduino
+	 * 
+	 * @param base_datos (SQLiteDatabase) la BB.DD donde se creará la tabla
+	 * 
+	 * */
 	public void crearTabla(SQLiteDatabase base_datos){
 		String linea = "CREATE TABLE " + NOMBRE_TABLA + 
 				   " ( _ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -34,6 +40,14 @@ public class ControladorBaseDatos extends SQLiteOpenHelper{
 		base_datos.execSQL(linea);
 	}
 	
+	/**
+	 * Cuando se actualize la versión de la app, borra la tabla y crea una nueva
+	 * 
+	 * @param base_datos (SQLiteDatabase) La base de datos de la que se borrará la tabla
+	 * @param version_v (int) La versión vieja
+	 * @param version_n (int) La versión nueva
+	 * 
+	 * */
 	@Override
 	public void onUpgrade(SQLiteDatabase base_datos, int version_v, int version_n){
 		base_datos.execSQL("DROP TABLE IF EXISTS " + NOMBRE_TABLA + ";");

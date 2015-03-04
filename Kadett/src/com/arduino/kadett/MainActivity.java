@@ -100,6 +100,11 @@ public class MainActivity extends Activity{
                 
 	}
 	
+	/**
+	 *  
+	 * Muestra todos los elementos en la pantalla.
+	 * 
+	 * */
 	private void dibujarPantalla(){
 		if(primeraVez){
         	mMenuArray = getResources().getStringArray(R.array.menu_array_principio);// Guardamos el array con los opciones del menú y boton EMPEZAR.
@@ -142,6 +147,12 @@ public class MainActivity extends Activity{
         
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 	}
+	
+	/**
+	 * 
+	 * Muestra el dialogo de entrada, cuando se ejecuta la app por primera vez.
+	 * 
+	 * */
 	private void mostrarDialogo(){
 		primeraVez=true;
     	Log.i(ACTIVIDAD,"Es la primera vez que se ejecuta");
@@ -175,9 +186,8 @@ public class MainActivity extends Activity{
 	}
 	/**
 	 *  
-	 * 	BroadcastReceiver escuchaBusqueda
 	 *  
-	 *  que utilizaremos para escuchar al servicio "Busqueda",
+	 *  Utilizaremos para escuchar al servicio "Busqueda",
 	 *  especificamente ahora para actualizar la imagen del estado del coche "Abierto-Cerrado"
 	 * 
 	 **/
@@ -223,7 +233,6 @@ public class MainActivity extends Activity{
 	}
 
 	/** 
-	 *  MenuClickListener 
 	 *  
 	 *  Definimos las acciones a seguir según que se clíque en el menú lateral
 	 *  
@@ -242,9 +251,13 @@ public class MainActivity extends Activity{
     }
 	
     /**
-     * Seleccionar(int opcion, View view)
      * 
-     * Recoge la opción seleccionada por el usuario y actua en consecuencia
+     * Recoge la opción seleccionada por el usuario en el menú y actua en consecuencia.
+     * Hay 2 menús, el primero cuando se ejecuta la aplicación por primera vez y
+     * el otro el resto del tiempo
+     * 
+     * @param opcion (int) opción seleccionada
+     * @param view (View) La vista en la que actua
      * 
      **/
     private void seleccionar(int opcion,View view) {
@@ -301,7 +314,7 @@ public class MainActivity extends Activity{
     }
 
     /**
-     * onBackPressed()
+     *
      * Es lo que se hace cuando se presiona el botón atrás
      * 
      **/
@@ -316,15 +329,13 @@ public class MainActivity extends Activity{
     	moveTaskToBack(true); 
     }
     
-    /**
-     * When using the ActionBarDrawerToggle, you must call it during
-     * onPostCreate() and onConfigurationChanged()...
-     * Called when activity start-up is complete (after onStart() and onRestoreInstanceState(Bundle) have been called)
-     */
+    
 
     /**
      * OnPostCreate se llama cuando se ha cargado una actividad completamente,
      *  después de haber llamado a onStart() y onRestoreInstanceState(Bundle) 
+     *  
+     *  @param savedInstanceState (Bundle) 
      */
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -333,6 +344,11 @@ public class MainActivity extends Activity{
         mDrawerToggle.syncState();
     }
 
+    /**
+     * Actua en la barra del menú cuando cambia la configuración
+     * 
+     * @param newConfig (Configuration) la nueva configuración
+     * */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -340,6 +356,11 @@ public class MainActivity extends Activity{
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
     	
+    /**
+     * Se encarga de abrir o cerrar la pestaña del menú
+     * @param item (MenuItem) Se le pasa el menú
+     * @return boolean
+     * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
          // La acción del actionBar (arriba/izquierda) debe abrir o cerrar la pestaña del menu.
@@ -352,10 +373,13 @@ public class MainActivity extends Activity{
         
     }
     /**
-     *	onActivityResult(int requestCode,int resultCode,Intent datos)
-     * 
+     *	 
      * 	Se encarga de los resultados devueltos por las actividades, 
      *  en éste caso, se encarga del resultado de la actividad PrimeraEjecucion
+     *  
+     *  @param requestCode (int) código que se pidio
+     *  @param resultCodigo (int) código que dió como resultado
+     *  @param datos (Intent) intento con los datos
      *  
      **/
     
@@ -380,7 +404,9 @@ public class MainActivity extends Activity{
         	intenton.putExtra("tipo", 2);
             startActivityForResult(intenton,PEDIR_PCB);
         	break;
+        	/*Creo que ya no necesitamos este caso*/
         case PEDIR_PCB:
+        	//Una vez guardado el numero del dispositivo Arduino se empieza a buscar dispositivos
         	// Comprobamos si el dispositivo tiene Bluetooth físico
             if (btAdapter == null) {
                 Toast.makeText(this, "Bluetooth no disponible", Toast.LENGTH_LONG).show();
@@ -393,6 +419,8 @@ public class MainActivity extends Activity{
             }
         	break;
         case REQUEST_ENABLE_BT:
+        	//Cuando se pide que active el Bluetooth del dispositivo Android, si declina la petición 
+        	// se cierra la aplicación
         	if(resultCode == RESULT_CANCELED){
         		Toast.makeText(this, "Bluetooth denegado, se cerrará la aplicación.", Toast.LENGTH_SHORT).show();
         	
@@ -411,7 +439,20 @@ public class MainActivity extends Activity{
         
     }
     
+    /**
+     * 
+     * Clase asíncrona que se encarga de esperar un tiempo determinado
+     * y volver a empezar el servicio.
+     * 
+     * */
     private class esperar extends AsyncTask<Void, Void, Void>{
+    	
+    	/**
+    	 * Se encarga de esperar X segundos, 
+    	 * para no estar buscando constantemente y agotar la bateria
+    	 * @param nada (Void) No se le pasa ningún parametro.
+    	 * @throws Exception Obligatorio al usar hilos.
+    	 * */
     	@Override
         protected Void doInBackground(Void... nada) {
             try{
@@ -419,6 +460,12 @@ public class MainActivity extends Activity{
             }catch(Exception e){}
             return null;
         }
+    	
+    	/**
+    	 * Ejecuta el servicio después de haber esperado.
+    	 * @param nada (Void) No se le pasa ningún parametro
+    	 * 
+    	 * */
     	@Override
         protected void onPostExecute(Void nada) {    
     		servicio();
@@ -426,11 +473,11 @@ public class MainActivity extends Activity{
     }
    
     /**
-     * onDestroy()
      * 
      *  Se encarga de desregistrar receiver y 
      *  cancelar una posible busqueda de bluetooth cuando se destruye la aplicación
-     *  
+     * 
+     *  @throws Excepction Siempre que se desregistra un receptor hay que asegurarlo.
      **/
     @Override
 	  protected void onDestroy() {

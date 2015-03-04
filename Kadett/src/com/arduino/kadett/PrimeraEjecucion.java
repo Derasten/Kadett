@@ -66,10 +66,12 @@ public class PrimeraEjecucion extends Activity{
      	    //Mostramos el circulo de progreso
      	    setProgressBarIndeterminateVisibility(true);
      	    btAdapter.startDiscovery();
-     	    
-     	    Log.v("startDiscovery","Ha empezado");        
+     	           
 	}
-	
+	/**
+	 * Se encarga de buscar dispositivos Bluetooth y mostrarlos en una lista.
+	 * 
+	 * */
 	private class buscarBT extends BroadcastReceiver{
 		
 		@Override
@@ -103,14 +105,29 @@ public class PrimeraEjecucion extends Activity{
 	        	}
 	        }
 	    }
+		
+		/**
+		 * Constructor
+		 * */
 		private buscarBT(){
 			
 		}
 	}
+	
 	/** 
-	 * listaDialogoClickListener , definimos las acciones a seguir según que se clíque en la lista
-	 */
+	 * Definimos las acciones a seguir según que se clíque en la lista
+	 *
+	 **/
     private class listaDialogoClickListener implements ListView.OnItemClickListener {
+    	/**
+    	 * Se guardará la MAC del dispositivo Bluetooth seleccionado en la lista
+    	 * 
+    	 * @param parent (AdapterView<?>) 
+    	 * @param view (View)
+    	 * @param opcion (int) Dispositivo seleccionado en la lista
+    	 * @param id (long) 
+    	 * 
+    	 * */
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int opcion, long id) {
         	
@@ -127,7 +144,7 @@ public class PrimeraEjecucion extends Activity{
     }
     
     /**
-	 * escribirPreferencias()
+	 * Guarda el número como una cadena en las preferencias (valores-clave)
 	 * @param preferencia (String) Nombre de la preferencia a editar
 	 * @param  valor (String) Valor a introducir en la preferencia 
 	 */
@@ -138,6 +155,10 @@ public class PrimeraEjecucion extends Activity{
 		editor.commit();
 	}
     
+	/**
+	 * Desregistra los receptores y cancela la búsqueda bluetooth si la hubiera al cerrar la actividad
+	 * @throws Exception Hay que ponerla al desregistrar receptores
+	 * */
     @Override
 	  protected void onDestroy() {
 	    super.onDestroy();

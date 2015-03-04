@@ -83,6 +83,7 @@ public class PedirTelefono extends Activity{
             		});
             		
             		break;
+            		//Pedir teléfono al que se le dará permiso
             	case 3:
             		tituloActividad.setText("Introduzca el número de telefono al que va a dar permiso.\n + prefijo_país número \n Ejemplo: +34600112233");
                 	
@@ -98,11 +99,7 @@ public class PedirTelefono extends Activity{
                 	    		numPermiso += numero;
                 	    		numPermiso +="%";
                 	    		new enviarSMS(numPermiso);
-                				
-                	    	/*	Intent intent = new Intent("TelefonoPermiso");
-                          		intent.putExtra("numeroPermiso",numero);
-                          		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-                          		*/
+                			
                     			finish();
                 			}
                       		
@@ -118,6 +115,12 @@ public class PedirTelefono extends Activity{
             }
 	}
 	
+	/**
+	 * 
+	 * Commprueba que el número empieza con el carácter '+' y 
+	 * que al menos tenga 11 caracteres
+	 * @param numero (String) numero a comprobar
+	 * */
 	private boolean comprobarNumero(String numero){
 		if(!numero.startsWith("+") || numero.length()<11 ){
 			return false;
@@ -139,7 +142,7 @@ public class PedirTelefono extends Activity{
 	  }
 	
 	/**
-	 * escribirPreferencias()
+	 * Guarda el número como una cadena en las preferencias (valores-clave)
 	 * @param preferencia (String) Nombre de la preferencia a editar
 	 * @param  valor (String) Valor a introducir en la preferencia 
 	 */

@@ -28,6 +28,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+/**
+ * Se encarga de mostrar el mapa y las localizaciones del coche y del usuario.
+ * 
+ * */
 public class Mapa extends Activity implements LocationListener{
 
 	private LocationManager locationManager;
@@ -38,9 +42,9 @@ public class Mapa extends Activity implements LocationListener{
 	private double latitudMovil  = 0;
 	private double longitudMovil = 0;
 	
+	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
-		Log.i("Mapa","onCreate() ---------------------");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
 
@@ -58,7 +62,6 @@ public class Mapa extends Activity implements LocationListener{
         		do{	
         			latitudCoche= c.getDouble(c.getColumnIndex("LATITUD"));
         			longitudCoche= c.getDouble(c.getColumnIndex("LONGITUD"));
-        			//Log.i("Mapa","latitud : "+ latitudCoche + " longitud: "+longitudCoche);
         		}while(c.moveToNext());
         	}
         	
@@ -107,6 +110,12 @@ public class Mapa extends Activity implements LocationListener{
              
         }
     }
+	
+	/**
+	 * Cuando la localización cambia se recalcula la ruta
+	 * 
+	 * @param localizacion (location) La nueva localización
+	 * */
     @Override
     public void onLocationChanged(Location localizacion) {
     	
@@ -137,15 +146,24 @@ public class Mapa extends Activity implements LocationListener{
  
     }
     
+    /**
+     * Calcula la ruta entre el dispositivo y el automóvil de forma asíncrona para después mostrarlo en el mapa.
+     * */
     private class CalculaRuta extends AsyncTask<Double, Void, Ruta> {
 
+    	
+    	/**
+    	 * Ejecuta la función en 'Background', calculando la ruta
+    	 * @param param (Double...) Dos parámetros,el primero con la latitud y el segundo con la longitud.
+    	 * @return ruta (Ruta)
+    	 * @throws Exception Hay que mantenerlo controlado.
+    	 * */
         @Override
         protected Ruta  doInBackground(Double... param) {
            Ruta ruta=null;
           
           try {
               ruta = direcciones(new LatLng(param[0],param[1]),new LatLng(latitudCoche,longitudCoche));
-              //Log.i("Dentro de AsyncTask"," direcciones calculadas");
           } catch (Exception e) {
               // TODO Auto-generated catch block
               e.printStackTrace();
@@ -154,10 +172,13 @@ public class Mapa extends Activity implements LocationListener{
               return ruta ;
         }      
 
+        /**
+         * Una vez ejecutada la clase, se dibuja la ruta en el mapa.
+         * @param ruta (Ruta) La ruta a dibujar
+         * */
         @Override
         protected void onPostExecute(Ruta ruta) {    
             // Dibujamos la ruta       	
-        	//Log.i("Dentro de AsyncTask","onPostExecute()");
         		PolylineOptions poli = new PolylineOptions()
         			.addAll(ruta.getPuntos())
         			.width(7)
@@ -167,8 +188,14 @@ public class Mapa extends Activity implements LocationListener{
         }
 
   }
+    
+    /**
+     * Hace la petición a Google para obtener la ruta entre los dos puntos.
+     * @param inicio (LatLng) La posición del dispositivo
+     * @param destion (LatLng) La posición del automóvil
+     * @return r (Ruta) La ruta a dibujar
+     * */
     private Ruta direcciones(LatLng inicio,LatLng destino){
-    	//Log.i("Mapa","direcciones()");
     	Parser parser;
         //https://developers.google.com/maps/documentation/directions/#JSON <- get api
         String jsonURL = "http://maps.googleapis.com/maps/api/directions/json?";
@@ -199,6 +226,11 @@ public class Mapa extends Activity implements LocationListener{
         // TODO Auto-generated method stub
     }
      
+    /**
+     * Modificamos el botón del menú para cerrar bien la actividad.
+     * @param item (MenuItem) 
+     * @return x Boolean
+     * */
     @Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch(item.getItemId()) {
@@ -206,7 +238,6 @@ public class Mapa extends Activity implements LocationListener{
 	    	Log.i("Mapa","Cerrando la actividad");
 	    	Mapa.clear();
 	        finish();
-	        //System.exit(0);
 	        return true;
 	    default:
 	        return super.onOptionsItemSelected(item);

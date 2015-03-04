@@ -6,12 +6,12 @@ import android.os.Looper;
 
 public class GuardarGPS extends Thread{
 
-	private double latitud;
-	private double longitud;
+	private double latitudG;
+	private double longitudG;
 	
 	public GuardarGPS(double arg1, double arg2){
-		latitud	 = arg1;
-		longitud = arg2;
+		latitudG	 = arg1;
+		longitudG = arg2;
 	}
 	
 	public void run(){
@@ -21,11 +21,11 @@ public class GuardarGPS extends Thread{
 		//MainActivity.appContext.deleteDatabase("RegistroGps");
 		
 		//Guardamos los datos recibidos
-		guardarDatos();
+		guardarDatos(latitudG,longitudG);
 		
 		//Contamos la filas existentes en la BBDD, si hay más de 10 eliminamos 5.
 		if(contarDatos()>10){
-			borrarDatos();
+			borrarDatos(5);
 		}
 		        
         // Elimina la tabla si existe
@@ -35,10 +35,13 @@ public class GuardarGPS extends Thread{
         }
 	
 	/**
-	 * guardarDatos()
+	 * Guarda la longitud, latitud, fecha y hora.
+	 * 
+	 * @param latitud (Double) la latitud de la localización
+	 * @param longitud (Double) la longitud de la localización
 	 * 
 	 **/
-	public void guardarDatos(){
+	public void guardarDatos(Double latitud, Double longitud){
 		//Abrimos la base de datos 'DBUsuarios' en modo escritura 
         ControladorBaseDatos midb = new ControladorBaseDatos(MainActivity.appContext,"GPS.db",null);
         SQLiteDatabase bd = midb.getWritableDatabase();
@@ -59,9 +62,13 @@ public class GuardarGPS extends Thread{
 	}
 	
 	/**
-	 * borrarDatos() 
+	 * Borra los datos cuando hay más de 5.
+	 * Esto se hace para evitar un crecimiento desmesurado del tamaño de la base de datos. 
+	 * Ya que sólo se necesita la última posición.
+	 * 
+	 * @param limite (int) Número máximo de columnas a dejar
 	 **/
-	public void borrarDatos(){
+	public void borrarDatos(int limite){
 		//Abrimos la base de datos 'DBUsuarios' en modo escritura 
         ControladorBaseDatos midb = new ControladorBaseDatos(MainActivity.appContext,"GPS.db",null);
         SQLiteDatabase bd = midb.getWritableDatabase();
@@ -70,7 +77,7 @@ public class GuardarGPS extends Thread{
         if(bd != null){
         	bd.execSQL("delete from " + ControladorBaseDatos.NOMBRE_TABLA +
 						" where "+ControladorBaseDatos.ID+" in (select "+
-						ControladorBaseDatos.ID +" from "+ ControladorBaseDatos.NOMBRE_TABLA+" order by _id LIMIT 5)");
+						ControladorBaseDatos.ID +" from "+ ControladorBaseDatos.NOMBRE_TABLA+" order by _id LIMIT "+limite+")");
 
         }
         //Cerramos la base de datos
@@ -79,7 +86,9 @@ public class GuardarGPS extends Thread{
 	
 	
 	/**
-	 * contarDatos()
+	 * Cuenta la cantidad de filas existentes en la tabla de la BBDD
+	 * 
+	 * @return numero (int) Número de filas existentes.
 	 **/
 	public int contarDatos(){
 		int numero=0;
